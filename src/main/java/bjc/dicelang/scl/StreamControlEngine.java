@@ -90,7 +90,7 @@ public class StreamControlEngine {
 		while(tokens.hasNext()) {
 			/* Tokenize each token. */
 			final String token = tokens.next();
-			final SCLToken tok = SCLToken.tokenizeString(token, words);
+			final SCLToken tok = SCLToken.tokenizeString(token);
 
 			if (tok == null) return false;
 
