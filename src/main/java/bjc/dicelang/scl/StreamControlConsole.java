@@ -51,15 +51,17 @@ public class StreamControlConsole {
 			/* Run the stream engine on the tokens. */
 			boolean succ = sengine.doStreams(tokens, res);
 			if(!succ) {
-				System.out.printf("ERROR: Stream engine failed for line '%s'\n", ln);
+				System.out.printf("\tERROR: Stream engine failed for line '%s'\n", ln);
 				continue;
 			}
 
+			if(sengine.debug)
+				System.out.printf("\tDEBUG: Streamed tokens: { %s }\n", res);
+
 			/* Run the command through SCL. */
-			tokens = res.toArray(new String[res.getSize()]);
-			succ = sclengine.runProgram(tokens);
+			succ = sclengine.runProgram(res.iterator());
 			if(!succ) {
-				System.out.printf("ERROR: SCL engine failed for line '%s'\n", ln);
+				System.out.printf("\tERROR: SCL engine failed for line '%s'\n", ln);
 				continue;
 			}
 

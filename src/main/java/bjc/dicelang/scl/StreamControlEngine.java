@@ -1,6 +1,8 @@
 package bjc.dicelang.scl;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import bjc.dicelang.scl.tokens.ArraySCLToken;
@@ -37,6 +39,11 @@ import static bjc.dicelang.scl.tokens.WordType.*;
  * @author Ben Culkin
  */
 public class StreamControlEngine {
+	/**
+	 * Are we debugging or not?
+	 */
+	public final boolean debug = true;
+
 	/* The stream engine we're hooked to. */
 	private final StreamEngine eng;
 
@@ -68,51 +75,57 @@ public class StreamControlEngine {
 	 * @return Whether the program executed successfully.
 	 */
 	public boolean runProgram(final String[] tokens) {
-		for (int i = 0; i < tokens.length; i++) {
-			/* Tokenize each token. */
-			final String token = tokens[i];
-			final SCLToken tok = SCLToken.tokenizeString(token);
+		return runProgram(Arrays.asList(tokens).iterator());
+	}
 
-			if (tok == null) {
-				System.out.printf("ERROR: Tokenization failed for '%s'\n", token);
-				return false;
-			}
+	/**
+	 * Run a SCL program.
+	 *
+	 * @param tokens
+	 *            The program to run.
+	 *
+	 * @return Whether the program executed successfully.
+	 */
+	public boolean runProgram(final Iterator<String> tokens) {
+		while(tokens.hasNext()) {
+			/* Tokenize each token. */
+			final String token = tokens.next();
+			final SCLToken tok = SCLToken.tokenizeString(token, words);
+
+			if (tok == null) return false;
 
 			/* Handle token types. */
 			switch (tok.type) {
-			case SQUOTE:
+			case SQUOTE: {
 				/* Handle single-quotes. */
-				i = handleSingleQuote(i, tokens);
-				if (i == -1) {
-					return false;
-				}
-				break;
+				boolean succ = handleSingleQuote(tokens);
+				if(!succ) return false;
 
-			case OBRACKET:
+				break;
+			}
+			case OBRACKET: {
 				/* Handle delimited brackets. */
-				i = handleDelim(i, tokens, "]");
-				if (i == -1) {
-					return false;
-				}
-				break;
+				boolean succ = handleDelim(tokens, "]");
+				if (!succ) return false;
 
-			case OBRACE:
+				break;
+			}
+			case OBRACE: {
 				/* Handle delimited braces. */
-				i = handleDelim(i, tokens, "}");
-				if (i == -1) {
+				boolean succ = handleDelim(tokens, "}");
+				if (!succ)
 					return false;
-				}
 				final SCLToken brak = curStack.pop();
 				curStack.push(new ArraySCLToken(((WordListSCLToken) brak).tokenVals));
 				break;
-
-			case WORD:
-				/* Handle words. */
+			}
+			case WORD: {
+				/* Handle built-in words. */
 				if (!handleWord((WordSCLToken) tok)) {
 					Errors.inst.printError(WK_SCL_WRDFAIL, tok);
 				}
 				break;
-
+			}
 			default:
 				/* Put it onto the stack. */
 				curStack.push(tok);
@@ -128,7 +141,9 @@ public class StreamControlEngine {
 
 		/* Handle each type of word. */
 		/*
-		 * @NOTE This should probably use something other than a switch statement.
+		 * @TODO 5/29/18 Ben Culkin :SCLWordDict
+		 *
+		 * This should probably use something other than a switch statement.
 		 */
 		switch (tk.wordVal) {
 		case NEWSTREAM:
@@ -329,82 +344,79 @@ public class StreamControlEngine {
 	}
 
 	/* Handle a delimited series of tokens. */
-	private int handleDelim(final int i, final String[] tokens, final String delim) {
+	private boolean handleDelim(final Iterator<String> tokens, final String delim) {
 		final IList<SCLToken> toks = new FunctionalList<>();
 
-		int n = i + 1;
+		if (!tokens.hasNext()) {
+			Errors.inst.printError(EK_SCL_MMQUOTE, delim);
 
-		if (n >= tokens.length) {
-			Errors.inst.printError(EK_SCL_MMQUOTE);
-			return -1;
+			return false;
 		}
 
-		String tok = tokens[n];
+		String tok = tokens.next();
 
 		while (!tok.equals(delim)) {
 			final SCLToken ntok = SCLToken.tokenizeString(tok);
 
 			switch (ntok.type) {
-			case SQUOTE:
-				n = handleSingleQuote(n, tokens);
-				if (n == -1) {
-					return -1;
-				}
+			case SQUOTE: {
+				boolean succ = handleSingleQuote(tokens);
+				if (!succ) return false;
+
 				toks.add(curStack.pop());
 				break;
-			case OBRACKET:
-				n = handleDelim(n, tokens, "]");
-				if (n == -1) {
-					return -1;
-				}
+			}
+			case OBRACKET: {
+				boolean succ = handleDelim(tokens, "]");
+				if (!succ) return false;
 				toks.add(curStack.pop());
 				break;
-			case OBRACE:
-				n = handleDelim(i, tokens, "}");
-				if (n == -1) {
-					return -1;
-				}
+			}
+			case OBRACE: {
+				boolean succ = handleDelim(tokens, "}");
+				if (!succ) return false;
+
 				final SCLToken brak = curStack.pop();
 				toks.add(new ArraySCLToken(((WordListSCLToken) brak).tokenVals));
 				break;
+			}
 			default:
 				toks.add(ntok);
 			}
 
-			/* Move to the next token */
-			n += 1;
+			if (!tokens.hasNext()) {
+				Errors.inst.printError(EK_SCL_MMQUOTE, delim);
 
-			if (n >= tokens.length) {
-				Errors.inst.printError(EK_SCL_MMQUOTE);
-				return -1;
+				return false;
 			}
 
-			tok = tokens[n];
+			tok = tokens.next();
 		}
 
-		/* Skip the closing bracket */
-		n += 1;
+		/* Skip the closing delimiter */
+		tokens.next();
 
 		/*
-		 * @NOTE Instead of being hardcoded, this should be a parameter.
+		 * @NOTE
+		 *
+		 * Instead of being hardcoded, this should be a parameter.
 		 */
 		curStack.push(new WordsSCLToken(toks));
 
-		return n;
+		return true;
 	}
 
 	/* Handle a single-quoted string. */
-	private int handleSingleQuote(final int i, final String[] tokens) {
+	private boolean handleSingleQuote(final Iterator<String> tokens) {
 		final StringBuilder sb = new StringBuilder();
 
-		int n = i + 1;
+		if (!tokens.hasNext()) {
+			Errors.inst.printError(EK_SCL_MMQUOTE, "'");
 
-		if (n >= tokens.length) {
-			Errors.inst.printError(EK_SCL_MMQUOTE);
-			return -1;
+			return false;
 		}
 
-		String tok = tokens[n];
+		String tok = tokens.next();
 
 		while (!tok.equals("'")) {
 			if (tok.matches("\\\\+'")) {
@@ -415,25 +427,24 @@ public class StreamControlEngine {
 			}
 
 			/* Move to the next token */
-			n += 1;
+			if (!tokens.hasNext()) {
+				Errors.inst.printError(EK_SCL_MMQUOTE, "'");
 
-			if (n >= tokens.length) {
-				Errors.inst.printError(EK_SCL_MMQUOTE);
-				return -1;
+				return false;
 			}
 
-			tok = tokens[n];
+			tok = tokens.next();
 		}
 
 		/*
 		 * Skip the single quote
 		 */
-		n += 1;
+		//tokens.next();
 
 		String strang = TokenUtils.descapeString(sb.toString());
 
 		curStack.push(new StringLitSCLToken(strang));
 
-		return n;
+		return true;
 	}
 }
