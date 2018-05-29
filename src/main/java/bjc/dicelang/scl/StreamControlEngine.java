@@ -27,6 +27,7 @@ import static bjc.dicelang.scl.tokens.WordType.*;
  * 
  * This is a large enough class that it should maybe be split into subclasses.
  */
+
 /**
  * Runs a Stream Control Language (SCL) program.
  *
@@ -108,7 +109,7 @@ public class StreamControlEngine {
 			case WORD:
 				/* Handle words. */
 				if (!handleWord((WordSCLToken) tok)) {
-					System.out.printf("WARNING: Execution of word '%s' failed\n", tok);
+					Errors.inst.printError(WK_SCL_WRDFAIL, tok);
 				}
 				break;
 
@@ -183,7 +184,8 @@ public class StreamControlEngine {
 			break;
 		case DROP:
 			if (curStack.size() == 0) {
-				Errors.inst.printError(EK_SCL_SUNDERFLOW, tk.toString());
+				Errors.inst.printError(EK_SCL_SUNDERFLOW, tk.toString(), 1);
+
 				return false;
 			}
 			curStack.drop();
@@ -196,7 +198,7 @@ public class StreamControlEngine {
 			break;
 		case NIP:
 			if (curStack.size() < 2) {
-				Errors.inst.printError(EK_SCL_SUNDERFLOW, tk.toString());
+				Errors.inst.printError(EK_SCL_SUNDERFLOW, tk.toString(), 2);
 				return false;
 			}
 			curStack.nip();
@@ -223,7 +225,7 @@ public class StreamControlEngine {
 
 	private boolean handleDefine() {
 		if (curStack.size() < 2) {
-			Errors.inst.printError(EK_SCL_SUNDERFLOW, "def");
+			Errors.inst.printError(EK_SCL_SUNDERFLOW, "def", 2);
 			return false;
 		}
 
@@ -256,7 +258,7 @@ public class StreamControlEngine {
 		final int n = (int) ((IntSCLToken) num).intVal;
 
 		if (curStack.size() < n) {
-			Errors.inst.printError(EK_SCL_SUNDERFLOW, NNIP.toString());
+			Errors.inst.printError(EK_SCL_SUNDERFLOW, NNIP.toString(), n);
 			return false;
 		}
 
@@ -276,7 +278,7 @@ public class StreamControlEngine {
 		final int n = (int) ((IntSCLToken) num).intVal;
 
 		if (curStack.size() < n) {
-			Errors.inst.printError(EK_SCL_SUNDERFLOW, NDROP.toString());
+			Errors.inst.printError(EK_SCL_SUNDERFLOW, NDROP.toString(), n);
 			return false;
 		}
 

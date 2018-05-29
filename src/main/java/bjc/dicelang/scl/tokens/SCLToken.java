@@ -45,6 +45,7 @@ public class SCLToken {
 			return new FloatSCLToken(Double.parseDouble(token));
 		} else {
 			Errors.inst.printError(EK_SCL_INVTOKEN, token);
+
 			return null;
 		}
 	}

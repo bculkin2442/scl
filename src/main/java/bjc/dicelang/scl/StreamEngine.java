@@ -30,11 +30,11 @@ public class StreamEngine {
 	public final boolean debug = true;
 
 	/* Our streams. */
-	Tape<IList<String>> streams;
-	IList<String> currStream;
+	private Tape<IList<String>> streams;
+	private IList<String> currStream;
 
 	/* Saved streams */
-	TapeLibrary<IList<String>> savedStreams;
+	private TapeLibrary<IList<String>> savedStreams;
 
 	/* Handler for SCL programs */
 	private final StreamControlEngine scleng;
@@ -55,6 +55,9 @@ public class StreamEngine {
 		commands.put('M', (eng) -> eng.mergeStream());
 		commands.put('L', (eng) -> {
 			String[] arr = eng.currStream.toArray(new String[0]);
+
+			if(eng.debug)
+				System.out.printf("\tDEBUG: Executing '%s' as SCL program\n", eng.currStream);
 
 			boolean succ = eng.scleng.runProgram(arr);
 
@@ -119,6 +122,8 @@ public class StreamEngine {
 			/* Process stream commands. */
 			if(tk.startsWith("{@S") && !quoteMode) {
 				if(tk.equals("{@SQ}")) {
+					if(debug)
+						System.out.println("\tDEBUG: Enabling quote mode\n");
 					/* Start quoting. */
 					quoteMode = true;
 				} else if(!processCommand(tk)) {
@@ -126,6 +131,8 @@ public class StreamEngine {
 				}
 			} else {
 				if(tk.equals("{@SU}")) {
+					if(debug)
+						System.out.println("\tDEBUG: Disabling quote mode\n");
 					/* Stop quoting. */
 					quoteMode = false;
 				} else if(tk.startsWith("\\") && tk.endsWith("{@SU}")) {
@@ -157,7 +164,7 @@ public class StreamEngine {
 	 */
 	public boolean rightStream() {
 		if(!streams.right()) {
-			Errors.inst.printError(EK_STRM_NONEX);
+			Errors.inst.printError(EK_STRM_NONEX, "right");
 			return false;
 		}
 
@@ -172,7 +179,7 @@ public class StreamEngine {
 	 */
 	public boolean leftStream() {
 		if(!streams.left()) {
-			Errors.inst.printError(EK_STRM_NONEX);
+			Errors.inst.printError(EK_STRM_NONEX, "left");
 			return false;
 		}
 
@@ -210,11 +217,26 @@ public class StreamEngine {
 
 		final IList<String> stringLit = streams.remove();
 		currStream = streams.item();
-		currStream.add(ListUtils.collapseTokens(stringLit, " "));
+
+		final String merg = ListUtils.collapseTokens(stringLit, "");
+
+		if(debug)
+			System.out.printf("\tDEBUG: Merging string '%s'\n", merg);
+
+		currStream.add(merg);
 
 		return true;
 	}
 
+	/*
+	 * Process an SCL command.
+	 *
+	 * These are single-character requests, but they can be chorded
+	 * together.
+	 *
+	 * For example, the command {@SM} executes the M command, while the
+	 * command {@SNS} would execute the N command, then the S command.
+	 */
 	private boolean processCommand(final String tk) {
 		char[] comms = null;
 
@@ -231,6 +253,7 @@ public class StreamEngine {
 		for(final char comm : comms) {
 			boolean succ = commands.getOrDefault(comm, (eng) -> {
 				Errors.inst.printError(EK_STRM_INVCOM, tk);
+
 				return false;
 			}).test(this);
 
