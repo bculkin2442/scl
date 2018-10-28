@@ -5,8 +5,6 @@ import static bjc.dicelang.scl.Errors.ErrorKey.EK_STRM_LAST;
 import static bjc.dicelang.scl.Errors.ErrorKey.EK_STRM_NONEX;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Predicate;
 
 import bjc.utils.esodata.SingleTape;
@@ -37,7 +35,7 @@ public class StreamEngine {
 	private IList<String> currStream;
 
 	/* Saved streams */
-	private Map<String, IList<String>> savedStreams;
+	//private Map<String, IList<String>> savedStreams;
 
 	/* Handler for SCL programs */
 	private final StreamControlEngine scleng;
@@ -73,7 +71,7 @@ public class StreamEngine {
 	 *
 	 */
 	public StreamEngine() {
-		savedStreams = new HashMap<>();
+		//savedStreams = new HashMap<>();
 		scleng = new StreamControlEngine(this);
 	}
 
