@@ -2,7 +2,6 @@ package bjc.dicelang.scl;
 
 import bjc.utils.esodata.SingleTape;
 import bjc.utils.esodata.Tape;
-import bjc.utils.esodata.TapeLibrary;
 import bjc.utils.funcdata.FunctionalList;
 import bjc.utils.funcdata.FunctionalMap;
 import bjc.utils.funcdata.IList;
@@ -10,6 +9,8 @@ import bjc.utils.funcdata.IMap;
 import bjc.utils.funcutils.ListUtils;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import static bjc.dicelang.scl.Errors.ErrorKey.*;
@@ -34,7 +35,7 @@ public class StreamEngine {
 	private IList<String> currStream;
 
 	/* Saved streams */
-	private TapeLibrary<IList<String>> savedStreams;
+	private Map<String, IList<String>> savedStreams;
 
 	/* Handler for SCL programs */
 	private final StreamControlEngine scleng;
@@ -70,7 +71,7 @@ public class StreamEngine {
 	 *
 	 */
 	public StreamEngine() {
-		savedStreams = new TapeLibrary<>();
+		savedStreams = new HashMap<>();
 		scleng = new StreamControlEngine(this);
 	}
 

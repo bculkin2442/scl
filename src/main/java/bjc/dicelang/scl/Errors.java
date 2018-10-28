@@ -45,6 +45,9 @@ public class Errors {
 		EK_STRM_INVCOM("\tERROR: Unknown stream control command %s\n", 1),
 
 		/* SCL Warnings */
+		/**
+		 * Word execution failed.
+		 */
 		WK_SCL_WRDFAIL("\tWARNING: Execution of word %s failed\n", 1),
 
 		/* SCL Errors */
@@ -69,7 +72,13 @@ public class Errors {
 		 */
 		EK_SCL_INVARG("\tERROR: Invalid argument to SCL command\n", 0);
 
+		/**
+		 * The message of the error.
+		 */
 		public final String msg;
+		/**
+		 * The number of arguments to the error.
+		 */
 		public final int argc;
 
 		private ErrorKey(String message, int argcount) {
