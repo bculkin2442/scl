@@ -1,9 +1,9 @@
 package bjc.dicelang.scl;
 
+import java.util.Scanner;
+
 import bjc.utils.funcdata.FunctionalList;
 import bjc.utils.funcdata.IList;
-
-import java.util.Scanner;
 
 /**
  * Implement a SCL REPL

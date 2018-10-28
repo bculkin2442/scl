@@ -1,6 +1,20 @@
 package bjc.dicelang.scl.tokens;
 
-import static bjc.dicelang.scl.tokens.WordType.*;
+import static bjc.dicelang.scl.tokens.WordType.DEFINE;
+import static bjc.dicelang.scl.tokens.WordType.DELETESTREAM;
+import static bjc.dicelang.scl.tokens.WordType.DROP;
+import static bjc.dicelang.scl.tokens.WordType.LEFTSTREAM;
+import static bjc.dicelang.scl.tokens.WordType.MAKEARRAY;
+import static bjc.dicelang.scl.tokens.WordType.MAKEEXEC;
+import static bjc.dicelang.scl.tokens.WordType.MAKEUNEXEC;
+import static bjc.dicelang.scl.tokens.WordType.MERGESTREAM;
+import static bjc.dicelang.scl.tokens.WordType.NDROP;
+import static bjc.dicelang.scl.tokens.WordType.NEWSTREAM;
+import static bjc.dicelang.scl.tokens.WordType.NIP;
+import static bjc.dicelang.scl.tokens.WordType.NNIP;
+import static bjc.dicelang.scl.tokens.WordType.RIGHTSTREAM;
+import static bjc.dicelang.scl.tokens.WordType.STACKCOUNT;
+import static bjc.dicelang.scl.tokens.WordType.STACKEMPTY;
 
 import java.util.HashMap;
 import java.util.Map;

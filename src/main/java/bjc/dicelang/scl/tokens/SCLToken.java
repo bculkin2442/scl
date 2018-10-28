@@ -1,13 +1,16 @@
 package bjc.dicelang.scl.tokens;
 
+import static bjc.dicelang.scl.Errors.ErrorKey.EK_SCL_INVTOKEN;
+import static bjc.dicelang.scl.tokens.TokenType.DQUOTE;
+import static bjc.dicelang.scl.tokens.TokenType.OBRACE;
+import static bjc.dicelang.scl.tokens.TokenType.OBRACKET;
+import static bjc.dicelang.scl.tokens.TokenType.SQUOTE;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import bjc.dicelang.scl.Errors;
 import bjc.utils.parserutils.TokenUtils;
-
-import static bjc.dicelang.scl.Errors.ErrorKey.*;
-import static bjc.dicelang.scl.tokens.TokenType.*;
 
 /**
  * Base class for SCL tokens.

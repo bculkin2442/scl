@@ -1,5 +1,17 @@
 package bjc.dicelang.scl;
 
+import static bjc.dicelang.scl.Errors.ErrorKey.EK_SCL_INVARG;
+import static bjc.dicelang.scl.Errors.ErrorKey.EK_SCL_MMQUOTE;
+import static bjc.dicelang.scl.Errors.ErrorKey.EK_SCL_SUNDERFLOW;
+import static bjc.dicelang.scl.Errors.ErrorKey.EK_SCL_UNWORD;
+import static bjc.dicelang.scl.Errors.ErrorKey.WK_SCL_WRDFAIL;
+import static bjc.dicelang.scl.tokens.TokenType.ARRAY;
+import static bjc.dicelang.scl.tokens.TokenType.ILIT;
+import static bjc.dicelang.scl.tokens.TokenType.SYMBOL;
+import static bjc.dicelang.scl.tokens.TokenType.WORDS;
+import static bjc.dicelang.scl.tokens.WordType.NDROP;
+import static bjc.dicelang.scl.tokens.WordType.NNIP;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,10 +31,6 @@ import bjc.utils.esodata.Stack;
 import bjc.utils.funcdata.FunctionalList;
 import bjc.utils.funcdata.IList;
 import bjc.utils.parserutils.TokenUtils;
-
-import static bjc.dicelang.scl.Errors.ErrorKey.*;
-import static bjc.dicelang.scl.tokens.TokenType.*;
-import static bjc.dicelang.scl.tokens.WordType.*;
 
 /*
  * @TODO 10/08/17 Ben Culkin :SCLReorg
