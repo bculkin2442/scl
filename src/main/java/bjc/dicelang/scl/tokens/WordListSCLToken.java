@@ -1,6 +1,6 @@
 package bjc.dicelang.scl.tokens;
 
-import bjc.utils.funcdata.IList;
+import bjc.funcdata.IList;
 
 /**
  * Represents a list of words.

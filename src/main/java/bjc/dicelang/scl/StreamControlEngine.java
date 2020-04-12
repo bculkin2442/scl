@@ -26,10 +26,10 @@ import bjc.dicelang.scl.tokens.SymbolSCLToken;
 import bjc.dicelang.scl.tokens.WordListSCLToken;
 import bjc.dicelang.scl.tokens.WordSCLToken;
 import bjc.dicelang.scl.tokens.WordsSCLToken;
-import bjc.utils.esodata.SimpleStack;
-import bjc.utils.esodata.Stack;
-import bjc.utils.funcdata.FunctionalList;
-import bjc.utils.funcdata.IList;
+import bjc.esodata.SimpleStack;
+import bjc.esodata.Stack;
+import bjc.funcdata.FunctionalList;
+import bjc.funcdata.IList;
 import bjc.utils.parserutils.TokenUtils;
 
 /*
@@ -203,7 +203,7 @@ public class StreamControlEngine {
 			curStack.push(new IntSCLToken(curStack.size()));
 			break;
 		case STACKEMPTY:
-			curStack.push(new BooleanSCLToken(curStack.empty()));
+			curStack.push(new BooleanSCLToken(curStack.isEmpty()));
 			break;
 		case DROP:
 			if (curStack.size() == 0) {

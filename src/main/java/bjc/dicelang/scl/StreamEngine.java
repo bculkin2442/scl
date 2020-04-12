@@ -7,12 +7,12 @@ import static bjc.dicelang.scl.Errors.ErrorKey.EK_STRM_NONEX;
 import java.util.Arrays;
 import java.util.function.Predicate;
 
-import bjc.utils.esodata.SingleTape;
-import bjc.utils.esodata.Tape;
-import bjc.utils.funcdata.FunctionalList;
-import bjc.utils.funcdata.FunctionalMap;
-import bjc.utils.funcdata.IList;
-import bjc.utils.funcdata.IMap;
+import bjc.esodata.SingleTape;
+import bjc.esodata.Tape;
+import bjc.funcdata.FunctionalList;
+import bjc.funcdata.FunctionalMap;
+import bjc.funcdata.IList;
+import bjc.funcdata.IMap;
 import bjc.utils.funcutils.ListUtils;
 
 /**

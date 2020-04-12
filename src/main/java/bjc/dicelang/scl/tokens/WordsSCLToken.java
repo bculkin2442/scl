@@ -1,6 +1,6 @@
 package bjc.dicelang.scl.tokens;
 
-import bjc.utils.funcdata.IList;
+import bjc.funcdata.IList;
 
 /**
  * A token representing an executable bunch of words.
