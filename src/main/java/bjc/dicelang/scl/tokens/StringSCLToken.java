@@ -12,6 +12,14 @@ public abstract class StringSCLToken extends SCLToken {
 	 */
 	public String stringVal;
 
+	/**
+	 * Create a new string token.
+	 * 
+	 * @param isSymbol
+	 *                 Is this token a symbol?
+	 * @param val
+	 *                 The value for this token.
+	 */
 	protected StringSCLToken(boolean isSymbol, String val) {
 		if (isSymbol) {
 			type = TokenType.SYMBOL;

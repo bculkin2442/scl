@@ -28,7 +28,8 @@ public class SCLToken {
 	 * Convert a string into a token.
 	 * 
 	 * @param token
-	 *            The string to convert into a token.
+	 *              The string to convert into a token.
+	 * 
 	 * @return The token.
 	 */
 	public static SCLToken tokenizeString(final String token) {
@@ -53,12 +54,24 @@ public class SCLToken {
 		}
 	}
 
+	/**
+	 * The literal tokens.
+	 */
 	protected static final Map<String, TokenType> litTokens;
 
+	/**
+	 * Create a new SCL token.
+	 */
 	protected SCLToken() {
 
 	}
 
+	/**
+	 * Create a new SCL token of a given type.
+	 * 
+	 * @param typ
+	 *            The type of the token.
+	 */
 	protected SCLToken(TokenType typ) {
 		type = typ;
 	}

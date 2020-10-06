@@ -14,6 +14,14 @@ public abstract class WordListSCLToken extends SCLToken {
 	 */
 	public IList<SCLToken> tokenVals;
 
+	/**
+	 * Create a new word-list token.
+	 * 
+	 * @param isArray
+	 *                Is this token an array.
+	 * @param tokens
+	 *                The tokens in the array.
+	 */
 	protected WordListSCLToken(boolean isArray, IList<SCLToken> tokens) {
 		if (isArray) {
 			type = TokenType.ARRAY;
