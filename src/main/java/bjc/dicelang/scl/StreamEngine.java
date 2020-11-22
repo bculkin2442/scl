@@ -252,11 +252,12 @@ public class StreamEngine {
 
 		/* Process each command. */
 		for(final char comm : comms) {
-			boolean succ = commands.getOrDefault(comm, (eng) -> {
-				Errors.inst.printError(EK_STRM_INVCOM, tk);
+			boolean succ = commands.get(comm)
+					.orElseGet(() -> (eng) -> {
+						Errors.inst.printError(EK_STRM_INVCOM, tk);
 
-				return false;
-			}).test(this);
+						return false;
+					}).test(this);
 
 			if(!succ) return false;
 		}
