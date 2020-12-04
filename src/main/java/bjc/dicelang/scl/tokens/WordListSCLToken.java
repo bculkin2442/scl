@@ -1,6 +1,6 @@
 package bjc.dicelang.scl.tokens;
 
-import bjc.funcdata.IList;
+import bjc.funcdata.ListEx;
 
 /**
  * Represents a list of words.
@@ -12,7 +12,7 @@ public abstract class WordListSCLToken extends SCLToken {
 	/**
 	 * The list of words.
 	 */
-	public IList<SCLToken> tokenVals;
+	public ListEx<SCLToken> tokenVals;
 
 	/**
 	 * Create a new word-list token.
@@ -22,7 +22,7 @@ public abstract class WordListSCLToken extends SCLToken {
 	 * @param tokens
 	 *                The tokens in the array.
 	 */
-	protected WordListSCLToken(boolean isArray, IList<SCLToken> tokens) {
+	protected WordListSCLToken(boolean isArray, ListEx<SCLToken> tokens) {
 		if (isArray) {
 			type = TokenType.ARRAY;
 		} else {

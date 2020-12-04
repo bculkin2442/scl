@@ -29,7 +29,7 @@ import bjc.dicelang.scl.tokens.WordsSCLToken;
 import bjc.esodata.SimpleStack;
 import bjc.esodata.Stack;
 import bjc.funcdata.FunctionalList;
-import bjc.funcdata.IList;
+import bjc.funcdata.ListEx;
 import bjc.utils.parserutils.TokenUtils;
 
 /*
@@ -340,7 +340,7 @@ public class StreamControlEngine {
 			Errors.inst.printError(EK_SCL_INVARG, num.type.toString());
 		}
 
-		final IList<SCLToken> arr = new FunctionalList<>();
+		final ListEx<SCLToken> arr = new FunctionalList<>();
 
 		for (int i = 0; i < ((IntSCLToken) num).intVal; i++) {
 			arr.add(curStack.pop());
@@ -353,7 +353,7 @@ public class StreamControlEngine {
 
 	/* Handle a delimited series of tokens. */
 	private boolean handleDelim(final Iterator<String> tokens, final String delim) {
-		final IList<SCLToken> toks = new FunctionalList<>();
+		final ListEx<SCLToken> toks = new FunctionalList<>();
 
 		if (!tokens.hasNext()) {
 			Errors.inst.printError(EK_SCL_MMQUOTE, delim);

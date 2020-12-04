@@ -1,6 +1,6 @@
 package bjc.dicelang.scl.tokens;
 
-import bjc.funcdata.IList;
+import bjc.funcdata.ListEx;
 
 /**
  * Represents an array token.
@@ -16,7 +16,7 @@ public class ArraySCLToken extends WordListSCLToken {
 	 * @param tokens
 	 *            The tokens in the array.
 	 */
-	public ArraySCLToken(IList<SCLToken> tokens) {
+	public ArraySCLToken(ListEx<SCLToken> tokens) {
 		super(true, tokens);
 	}
 

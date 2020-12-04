@@ -25,8 +25,8 @@ public class StreamEngine {
 	public final boolean debug = true;
 
 	/* Our streams. */
-	private Tape<IList<String>> streams;
-	private IList<String> currStream;
+	private Tape<ListEx<String>> streams;
+	private ListEx<String> currStream;
 
 	/* Saved streams */
 	//private Map<String, IList<String>> savedStreams;
@@ -34,7 +34,7 @@ public class StreamEngine {
 	/* Handler for SCL programs */
 	private final StreamControlEngine scleng;
 
-	private static IMap<Character, Predicate<StreamEngine>> commands;
+	private static MapEx<Character, Predicate<StreamEngine>> commands;
 
 	static {
 		commands = new FunctionalMap<>();
@@ -90,7 +90,7 @@ public class StreamEngine {
 	 *
 	 * @return Whether or not the streams were successfully processed.
 	 */
-	public boolean doStreams(final String[] toks, final IList<String> dest) {
+	public boolean doStreams(final String[] toks, final ListEx<String> dest) {
 		return doStreams(Arrays.asList(toks), dest);
 	}
 
@@ -105,7 +105,7 @@ public class StreamEngine {
 	 *
 	 * @return Whether or not the streams were successfully processed.
 	 */
-	public boolean doStreams(final Iterable<String> toks, final IList<String> dest) {
+	public boolean doStreams(final Iterable<String> toks, final ListEx<String> dest) {
 		/* Initialize per-run state. */
 		init();
 
@@ -210,7 +210,7 @@ public class StreamEngine {
 			return false;
 		}
 
-		final IList<String> stringLit = streams.remove();
+		final ListEx<String> stringLit = streams.remove();
 		currStream = streams.item();
 
 		final String merg = ListUtils.collapseTokens(stringLit, "");

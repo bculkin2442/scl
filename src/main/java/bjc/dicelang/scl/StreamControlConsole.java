@@ -3,7 +3,7 @@ package bjc.dicelang.scl;
 import java.util.Scanner;
 
 import bjc.funcdata.FunctionalList;
-import bjc.funcdata.IList;
+import bjc.funcdata.ListEx;
 
 /**
  * Implement a SCL REPL
@@ -45,7 +45,7 @@ public class StreamControlConsole {
 			}
 
 			/* Break the token into strings. */
-			IList<String> res = new FunctionalList<>();
+			ListEx<String> res = new FunctionalList<>();
 			String[] tokens = ln.split(" ");
 
 			/* Run the stream engine on the tokens. */

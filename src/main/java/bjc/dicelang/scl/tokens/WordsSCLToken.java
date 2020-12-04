@@ -1,6 +1,6 @@
 package bjc.dicelang.scl.tokens;
 
-import bjc.funcdata.IList;
+import bjc.funcdata.ListEx;
 
 /**
  * A token representing an executable bunch of words.
@@ -16,7 +16,7 @@ public class WordsSCLToken extends WordListSCLToken {
 	 * @param tokens
 	 *            The tokens to use.
 	 */
-	public WordsSCLToken(IList<SCLToken> tokens) {
+	public WordsSCLToken(ListEx<SCLToken> tokens) {
 		super(false, tokens);
 	}
 
