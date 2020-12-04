@@ -1,19 +1,13 @@
 package bjc.dicelang.scl;
 
-import static bjc.dicelang.scl.Errors.ErrorKey.EK_STRM_INVCOM;
-import static bjc.dicelang.scl.Errors.ErrorKey.EK_STRM_LAST;
-import static bjc.dicelang.scl.Errors.ErrorKey.EK_STRM_NONEX;
+import static bjc.dicelang.scl.Errors.ErrorKey.*;
 
-import java.util.Arrays;
-import java.util.function.Predicate;
+import java.util.*;
+import java.util.function.*;
 
-import bjc.esodata.SingleTape;
-import bjc.esodata.Tape;
-import bjc.funcdata.FunctionalList;
-import bjc.funcdata.FunctionalMap;
-import bjc.funcdata.IList;
-import bjc.funcdata.IMap;
-import bjc.utils.funcutils.ListUtils;
+import bjc.esodata.*;
+import bjc.funcdata.*;
+import bjc.utils.funcutils.*;
 
 /**
  * Implements multiple interleaved parse streams, as well as a command language
