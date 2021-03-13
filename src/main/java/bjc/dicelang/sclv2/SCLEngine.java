@@ -16,7 +16,7 @@ public class SCLEngine
 	private TapeLibrary<Deque<String>> streams;
 	private Deque<String>              currentStream;
 
-	private Map<String, Deque<String>> streamLibrary;
+//	private Map<String, Deque<String>> streamLibrary;
 
 	private boolean inQuoteMode;
 
@@ -37,7 +37,7 @@ public class SCLEngine
 		streams.setAllowAutoCreation(true);
 		streams.mountTape("default");
 
-		streamLibrary = new HashMap<>();
+//		streamLibrary = new HashMap<>();
 
 		currentStream = new ArrayDeque<>();
 		streams.item(currentStream);
